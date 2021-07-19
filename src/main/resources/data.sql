@@ -1,1 +1,2 @@
-INSERT INTO CUSTOMER(social_name, document, contract_id) VALUES('Test', '99987667812', null);
+INSERT INTO CUSTOMER(social_name, document, contract_id) VALUES('TestCustomer', '99987667812', null);
+INSERT INTO PROVIDER(social_name, document, contract_id) VALUES('TestProvider', '99987667813', null);

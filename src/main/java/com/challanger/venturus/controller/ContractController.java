@@ -35,6 +35,13 @@ public class ContractController {
             List<Contract> getContractByDocumentCustomer = contractRepository.findContractByCustomerDocument(document);
                 if(getContractByDocumentCustomer == null){
                     List<Contract> getContractByDocumentProvider = contractRepository.findContractByProviderDocument(document);
+
+                    if(getContractByDocumentProvider == null){
+                        List<Contract> getContractByNumber = contractRepository.findByContractNumber(document);
+
+                        return ContractDTO.convert(getContractByDocumentProvider);
+                    }
+
                     return ContractDTO.convert(getContractByDocumentProvider);
                 }
             return ContractDTO.convert(getContractByDocumentCustomer);
@@ -44,8 +51,6 @@ public class ContractController {
 
     @PostMapping
     public void create(@RequestBody ContractFormDTO payload){
-//        Customer customer = customerRepository.findByDocument(payload.getCustomerDocument());
-//        Provider provider = providerRepository.findByDocument(payload.getProviderDocument());
         Contract contract = payload.convert(payload.getCustomerDocument(), payload.getProviderDocument(), customerRepository, providerRepository);
         contractRepository.save(contract);
     }
