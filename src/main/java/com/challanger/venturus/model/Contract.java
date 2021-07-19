@@ -1,6 +1,7 @@
 package com.challanger.venturus.model;
 
 import com.challanger.venturus.util.RandomString;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,9 +15,11 @@ public class Contract {
     private Long id;
     private String contractNumber = new RandomString().getAlphaNumericString();
     private String subName;
-    private String validaty;
-    private LocalDateTime startedContract;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date startedContract;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date closedContract;
+    private long validaty;
     @ManyToOne
     private Provider provider;
     @ManyToOne
@@ -26,9 +29,8 @@ public class Contract {
 
     }
 
-    public Contract(String subName, String validaty, LocalDateTime startedContract, Date closedContract, Provider provider, Customer customer) {
+    public Contract(String subName, Date startedContract, Date closedContract, Provider provider, Customer customer) {
         this.subName = subName;
-        this.validaty = validaty;
         this.startedContract = startedContract;
         this.closedContract = closedContract;
         this.provider = provider;
@@ -59,11 +61,11 @@ public class Contract {
         this.subName = subName;
     }
 
-    public LocalDateTime getStartedContract() {
+    public Date getStartedContract() {
         return startedContract;
     }
 
-    public void setStartedContract(LocalDateTime startedContract) {
+    public void setStartedContract(Date startedContract) {
         this.startedContract = startedContract;
     }
 
@@ -91,11 +93,11 @@ public class Contract {
         this.customer = customer;
     }
 
-    public String getValidaty() {
+    public Long getValidaty() {
         return validaty;
     }
 
-    public void setValidaty(String validaty) {
-        this.validaty = validaty;
+    public void setValidaty(Long validaty) {
+        this.validaty = closedContract.getTime() - startedContract.getTime();
     }
 }

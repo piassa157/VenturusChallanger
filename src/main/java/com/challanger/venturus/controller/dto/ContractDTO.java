@@ -11,8 +11,8 @@ public class ContractDTO {
 
     private String contractNumber;
     private String subName;
-    private String validaty;
-    private LocalDateTime startedDate;
+    private Long validaty;
+    private Date startedDate;
     private Date closedDate;
 
     public ContractDTO(Contract contract){
@@ -31,11 +31,11 @@ public class ContractDTO {
         return subName;
     }
 
-    public String getValidaty() {
+    public Long getValidaty() {
         return validaty;
     }
 
-    public LocalDateTime getStartedDate() {
+    public Date getStartedDate() {
         return startedDate;
     }
 

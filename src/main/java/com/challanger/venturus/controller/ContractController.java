@@ -3,19 +3,17 @@ package com.challanger.venturus.controller;
 import com.challanger.venturus.controller.dto.ContractDTO;
 import com.challanger.venturus.controller.dto.ContractFormDTO;
 import com.challanger.venturus.model.Contract;
-import com.challanger.venturus.model.Customer;
-import com.challanger.venturus.model.Provider;
 import com.challanger.venturus.repository.ContractRepository;
 import com.challanger.venturus.repository.CustomerRepository;
 import com.challanger.venturus.repository.ProviderRepository;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/contracts")
@@ -33,13 +31,13 @@ public class ContractController {
             return ContractDTO.convert(getContract);
         }   else{
             List<Contract> getContractByDocumentCustomer = contractRepository.findContractByCustomerDocument(document);
-                if(getContractByDocumentCustomer == null){
+                if(getContractByDocumentCustomer.isEmpty()){
                     List<Contract> getContractByDocumentProvider = contractRepository.findContractByProviderDocument(document);
 
-                    if(getContractByDocumentProvider == null){
+                    if(getContractByDocumentProvider.isEmpty()){
                         List<Contract> getContractByNumber = contractRepository.findByContractNumber(document);
 
-                        return ContractDTO.convert(getContractByDocumentProvider);
+                        return ContractDTO.convert(getContractByNumber);
                     }
 
                     return ContractDTO.convert(getContractByDocumentProvider);
@@ -50,11 +48,12 @@ public class ContractController {
 
 
     @PostMapping
-    public void create(@RequestBody ContractFormDTO payload){
+    public ResponseEntity<ContractDTO> create(@RequestBody @Valid ContractFormDTO payload, UriComponentsBuilder uriBuilder){
         Contract contract = payload.convert(payload.getCustomerDocument(), payload.getProviderDocument(), customerRepository, providerRepository);
         contractRepository.save(contract);
+
+        URI uri = uriBuilder.path("/contracts/{id}").buildAndExpand(contract.getId()).toUri();
+        return  ResponseEntity.created(uri).body(new ContractDTO(contract));
     }
-
-
 
 }

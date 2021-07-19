@@ -5,18 +5,26 @@ import com.challanger.venturus.model.Customer;
 import com.challanger.venturus.model.Provider;
 import com.challanger.venturus.repository.CustomerRepository;
 import com.challanger.venturus.repository.ProviderRepository;
-import com.challanger.venturus.util.RandomString;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class ContractFormDTO {
 
+    @NotNull @NotEmpty
     private String subName;
-    private String validaty;
-    private LocalDateTime startedDate;
+    @NotNull @NotEmpty
+    @JsonFormat(pattern="yyyy/MM/dd")
+    private Date startedDate;
+    @NotNull @NotEmpty
+    @JsonFormat(pattern="yyyy/MM/dd")
     private Date closedDate;
+    @NotNull @NotEmpty @Size(min = 12)
     private String customerDocument;
+    @NotNull @NotEmpty @Size(min = 12)
     private String providerDocument;
     private Provider provider;
     private Customer customer;
@@ -37,19 +45,12 @@ public class ContractFormDTO {
         this.subName = subName;
     }
 
-    public String getValidaty() {
-        return validaty;
-    }
 
-    public void setValidaty(String validaty) {
-        this.validaty = validaty;
-    }
-
-    public LocalDateTime getStartedDate() {
+    public Date getStartedDate() {
         return startedDate;
     }
 
-    public void setStartedDate(LocalDateTime startedDate) {
+    public void setStartedDate(Date startedDate) {
         this.startedDate = startedDate;
     }
 
@@ -70,7 +71,7 @@ public class ContractFormDTO {
     }
 
     public Contract convert(String customerDocument, String providerDocument, CustomerRepository customerRepository, ProviderRepository providerRepository) {
-        return new Contract(subName, validaty, startedDate, closedDate, provider, customer);
+        return new Contract(subName, startedDate, closedDate, provider, customer);
     }
 
 }
