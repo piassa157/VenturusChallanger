@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ContractDTO {
 
-    private Long contractNumber;
+    private String contractNumber;
     private String subName;
     private String validaty;
     private LocalDateTime startedDate;
@@ -23,7 +23,7 @@ public class ContractDTO {
         this.closedDate = contract.getClosedContract();
     }
 
-    public Long getContractNumber() {
+    public String getContractNumber() {
         return contractNumber;
     }
 

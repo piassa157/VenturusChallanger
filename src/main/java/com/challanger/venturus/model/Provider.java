@@ -14,6 +14,14 @@ public class Provider {
     @ManyToOne
     private Contract contract;
 
+    public Provider(){
+
+    }
+
+    public Provider(String socialName, String document) {
+        this.socialName = socialName;
+        this.document = document;
+    }
 
     public Long getId() {
         return id;

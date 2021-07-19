@@ -1,5 +1,7 @@
 package com.challanger.venturus.model;
 
+import com.challanger.venturus.util.RandomString;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -10,7 +12,7 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long contractNumber;
+    private String contractNumber = new RandomString().getAlphaNumericString();
     private String subName;
     private String validaty;
     private LocalDateTime startedContract;
@@ -18,8 +20,20 @@ public class Contract {
     @ManyToOne
     private Provider provider;
     @ManyToOne
-    private Customer client;
+    private Customer customer;
 
+    public Contract(){
+
+    }
+
+    public Contract(String subName, String validaty, LocalDateTime startedContract, Date closedContract, Provider provider, Customer customer) {
+        this.subName = subName;
+        this.validaty = validaty;
+        this.startedContract = startedContract;
+        this.closedContract = closedContract;
+        this.provider = provider;
+        this.customer = customer;
+    }
 
     public Long getId() {
         return id;
@@ -29,11 +43,11 @@ public class Contract {
         this.id = id;
     }
 
-    public Long getContractNumber() {
+    public String getContractNumber() {
         return contractNumber;
     }
 
-    public void setContractNumber(Long contractNumber) {
+    public void setContractNumber(String contractNumber) {
         this.contractNumber = contractNumber;
     }
 
@@ -70,11 +84,11 @@ public class Contract {
     }
 
     public Customer getClient() {
-        return client;
+        return customer;
     }
 
-    public void setClient(Customer client) {
-        this.client = client;
+    public void setClient(Customer customer) {
+        this.customer = customer;
     }
 
     public String getValidaty() {
