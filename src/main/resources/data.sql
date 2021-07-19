@@ -1,0 +1,1 @@
+INSERT INTO CUSTOMER(social_name, document, contract_id) VALUES('Test', '99987667812', null);
