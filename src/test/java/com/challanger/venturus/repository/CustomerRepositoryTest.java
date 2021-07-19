@@ -13,11 +13,18 @@ public class CustomerRepositoryTest {
     private CustomerRepository customerRepository;
 
     @Test
-    public void souldCarryCustomerByDocument(){
+    public void shouldCarryCustomerByDocument(){
         String customerDocument = "99987667812";
         Customer customer = customerRepository.findByDocument(customerDocument);
         Assert.assertNotNull(customer);
         Assert.assertEquals(customerDocument, customer.getDocument());
+    }
+
+    @Test
+    public void notShouldCarryCustomerByDocument(){
+        String customerDocument = "99999999";
+        Customer customer = customerRepository.findByDocument(customerDocument);
+        Assert.assertNull(customer);
     }
 
 }
