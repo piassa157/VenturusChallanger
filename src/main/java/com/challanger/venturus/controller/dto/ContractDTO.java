@@ -1,6 +1,7 @@
 package com.challanger.venturus.controller.dto;
 
 import com.challanger.venturus.model.Contract;
+import com.challanger.venturus.util.DataUtil;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -11,7 +12,7 @@ public class ContractDTO {
 
     private String contractNumber;
     private String subName;
-    private Long validaty;
+    private String validaty;
     private Date startedDate;
     private Date closedDate;
 
@@ -31,7 +32,7 @@ public class ContractDTO {
         return subName;
     }
 
-    public Long getValidaty() {
+    public String getValidaty() {
         return validaty;
     }
 

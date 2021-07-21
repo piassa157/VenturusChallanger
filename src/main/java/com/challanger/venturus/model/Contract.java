@@ -1,10 +1,12 @@
 package com.challanger.venturus.model;
 
+import com.challanger.venturus.util.DataUtil;
 import com.challanger.venturus.util.RandomString;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.service.spi.InjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.text.ParseException;
 import java.util.Date;
 
 @Entity
@@ -15,18 +17,16 @@ public class Contract {
     private Long id;
     private String contractNumber = new RandomString().getAlphaNumericString();
     private String subName;
-    @JsonFormat(pattern="yyyy-MM-dd")
     private Date startedContract;
-    @JsonFormat(pattern="yyyy-MM-dd")
     private Date closedContract;
-    private long validaty;
+    private String validaty;
     @ManyToOne
     private Provider provider;
     @ManyToOne
     private Customer customer;
 
-    public Contract(){
 
+    public Contract() {
     }
 
     public Contract(String subName, Date startedContract, Date closedContract, Provider provider, Customer customer) {
@@ -35,6 +35,11 @@ public class Contract {
         this.closedContract = closedContract;
         this.provider = provider;
         this.customer = customer;
+        try {
+            this.validaty = DataUtil.generatedValidaty(startedContract, closedContract);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public Long getId() {
@@ -93,11 +98,11 @@ public class Contract {
         this.customer = customer;
     }
 
-    public Long getValidaty() {
+    public String getValidaty() {
         return validaty;
     }
 
-    public void setValidaty(Long validaty) {
-        this.validaty = closedContract.getTime() - startedContract.getTime();
+    public void setValidaty(String validaty) {
+        this.validaty = validaty;
     }
 }
