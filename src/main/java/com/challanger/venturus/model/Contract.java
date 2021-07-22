@@ -17,6 +17,7 @@ public class Contract {
     private Long id;
     private String contractNumber = new RandomString().getAlphaNumericString();
     private String subName;
+    private String serviceName;
     private Date startedContract;
     private Date closedContract;
     private String validaty;
@@ -29,12 +30,13 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(String subName, Date startedContract, Date closedContract, Provider provider, Customer customer) {
+    public Contract(String subName, String serviceName,Date startedContract, Date closedContract, Provider provider, Customer customer) {
         this.subName = subName;
         this.startedContract = startedContract;
         this.closedContract = closedContract;
         this.provider = provider;
         this.customer = customer;
+        this.serviceName = serviceName;
         try {
             this.validaty = DataUtil.generatedValidaty(startedContract, closedContract);
         } catch (ParseException e) {
@@ -60,6 +62,14 @@ public class Contract {
 
     public String getSubName() {
         return subName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public void setSubName(String subName) {
